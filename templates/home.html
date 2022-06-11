@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<!-- {% static 'js/jquery-3.2.1.min.js' %}
+style="background-image:url(/static/img/bg_2.jpg);">
+-->
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Home</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <!-- <link href={% static "img/favicon.png" %} rel="icon"> -->
+  <!-- <link href={% static "img/apple-touch-icon.png" %} rel="apple-touch-icon"> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href={% static "vendor/bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
+  <link href={% static "vendor/bootstrap-icons/bootstrap-icons.css" %} rel="stylesheet">
+  <link href={% static "vendor/boxicons/css/boxicons.min.css" %} rel="stylesheet">
+  <link href={% static "vendor/glightbox/css/glightbox.min.css" %} rel="stylesheet">
+  <link href={% static "vendor/swiper/swiper-bundle.min.css" %} rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href={% static "css/style.css" %} rel="stylesheet">
+
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
+      <!-- Uncomment below if you prefer to use text as a logo -->
+      <h1 class="logo"><a href="{% url 'home' %}">Covid-19</a></h1>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{% url 'displayGraph' %}">Visualize Charts</a></li>
+         
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1>Covid-19 data analysis and forecasting</h1>
+          <h2>To analyse the covid time series data and predict the upcoming Covid-19 cases in India. I will be using LSTM, Prophet and ARIMA Machine Learning models.</h2>
+          <div>
+          
+            <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+          <input type="file" name="csvFile" id="csvFile" accept=".csv" class="form-control mt-5" required multiple="multiple">
+          <input type="submit" class="btn-get-started scrollto" value="Upload" >
+      </form>
+      <label for="msg" class="mt-3">{{msg}}</label>
+            <!-- <a href="#about" class="btn-get-started scrollto">Upload csv file</a> -->
+          
+          </div>
+          
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img">
+          <img src={% static "img/hero-img.png" %} class="img-fluid" alt="">
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+     
+      
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+
+    <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts">
+      <div class="container">
+
+        <div class="text-center title">
+          <!-- <form action="{% url 'home' %}" method="get">
+   
+            <input type="submit" value="View Datasets">
+        
+        </form> -->
+          <h3>Datasets</h3>
+          <a href="{% url 'home' %}">Refresh</a><br><br>
+{% for i in all_files %}
+<a href="{% url 'selectFile' i %}" class="link-success h5">Select</a>&nbsp;&nbsp;
+<a href="{% url 'datatable' i %}" class="link-dark">{{i}}</a>&nbsp;&nbsp;
+<a href="{% url 'deleteFile' i %}" class="link-danger h5">Delete</a>
+<br>
+{% endfor %}
+<br>
+<br>
+{% if selectedFileName %}
+The selected file is &nbsp;<label for="selectedFileName" class="text-success">{{selectedFileName}}</label>
+{% endif %}
+          
+        </div>
+
+    
+      </div>
+    </section><!-- End Counts Section -->
+
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="row">
+          
+          <div class="col-xl-5 col-lg-6 d-flex justify-content-center align-items-stretch position-relative">
+          <img src={% static 'img/models.jpg' %} class="img-fluid" alt="">  
+          <!--  <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a>  -->
+          </div> 
+
+          <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
+            <h3>Machine Learning Models</h3>
+            <p>Machine learning (ML) is a category of an algorithm that allows software applications to become more accurate in predicting outcomes without being explicitly programmed. The basic premise of machine learning is to build algorithms that can receive input data and use statistical analysis to predict an output while updating outputs as new data becomes available.</p>
+
+
+            <form action="{% url 'metrics' %}" method="get">
+              <!-- <input type="radio" id="html" name="fav_language" value="LSTM">
+              <input type="radio" id="css" name="fav_language" value="Prophet">
+              <label for="css">Prophet</label><br>
+              <label for="html">LSTM</label><br> -->
+              
+         
+            <div class="icon-box">
+             
+              <!-- <div class="icon"><input type="checkbox" name="select_mod" value ="LSTM Model" id=""></div> -->
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+              
+              <div class="row">
+                <h4 class="title col-5 my-0"><a href="">LSTM model</a></h4>
+                
+                <div class="col">
+                  <a href="{% url 'models' 'LSTM' %}" class="btn btn-info mt-0 mb-0 pred">Predict</a>
+                  
+                </div>
+                
+              </div>
+        
+              <p class="description mt-2">It is special kind of recurrent neural network that is capable of learning long term dependencies in data. This is achieved because the recurring module of the model has a combination of four layers interacting with each other.</p>
+            
+          </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+             
+
+              <div class="row">
+                <h4 class="title col-5"><a href="">facebook Prophet model</a></h4>
+                
+                <div class="col">
+                  <a href="{% url 'models' 'prophet' %}" class="btn btn-info mt-0 mb-0 pred">Predict</a>
+                </div>
+                
+              </div>
+
+
+              <p class="description">Prophet is a procedure for forecasting time series data based on an additive model where non-linear trends are fit with yearly, weekly, and daily seasonality, plus holiday effects. It works best with time series that have strong seasonal effects and several seasons of historical data. Prophet is robust to missing data and shifts in the trend, and typically handles outliers well.</p>
+            </div>
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+
+
+              <div class="row">
+                <h4 class="title col-5 my-0"><a href="">Arima model</a></h4>
+                <!-- <input type="radio" name="fav_language" value="arima" class="col my-0"> -->
+                <div class="col">
+                  <a href="{% url 'models' 'arima' %}" class="btn btn-info mt-0 mb-0 pred" >Predict</a>
+                  <!-- <input type="submit" class="btn btn-info mt-0 mb-0" value="Predict"> -->
+                </div>
+                
+              </div>
+
+
+              <p class="description">An autoregressive integrated moving average, or ARIMA, is a statistical analysis model that uses time series data to either better understand the data set or to predict future trends. A statistical model is autoregressive if it predicts future values based on past values. </p>
+            </div>
+           &nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <input type="submit" name="" id="" class="btn btn-danger col-5" value="Evaluate Models">
+          </form>
+          
+          <!-- <a href="{% url 'metrics' %}" class="btn btn-success">Evaluation metrics</a> -->
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    {% if fileError %}
+    <script>alert("{{fileError}}")</script>
+    <!-- <label for="fileError" class="text-center">{{fileError}}</label> -->
+    {% endif %}
+<div class="container">
+    {% if img1 %}
+    <img src='/{{img1}}' alt = "not found proper {{img1}}" height="700" width="1200"><br>
+    {% endif %}
+    {% if img2 %}
+    <img src='/{{img2}}' alt = "not found proper {{img2}}" height="700" width="1200">
+    {% endif %}
+    <br>
+    {% if mae and mse and rmse %}
+    <h5 class="description">Mean Absolute Error (MAE) = {{mae}}</h5>
+    <br>
+    <h5>Mean Squared Error (MSE) = {{mse}}</h5>
+    <br>
+    <h5>Root Mean Squared Error (RMSE) = {{rmse}}</p>
+    <br>
+    {% endif %}
+   
+    {% if met %}
+    <img src='/{{met}}' alt = "not found proper {{met}}">
+    {% endif %}
+    <br><br><br>
+  </div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  
+  <script src={% static "vendor/purecounter/purecounter.js" %}></script>
+  <script src={% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}></script>
+  <script src={% static "vendor/glightbox/js/glightbox.min.js" %}></script>
+  <script src={% static "vendor/isotope-layout/isotope.pkgd.min.js" %}></script>
+  <script src={% static "vendor/swiper/swiper-bundle.min.js" %}></script>
+  <script src={% static "vendor/php-email-form/validate.js" %}></script>
+
+  
+  <script src={% static "js/main.js" %}></script>
+  <!-- <script>
+    let rad;
+    $(".pred").click(function(){
+      rad = $('input[name="fav_language"]:checked').val();
+  });
+    
+  </script> -->
+
+</body>
+
+
+</html>
